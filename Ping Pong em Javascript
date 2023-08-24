@@ -1,0 +1,116 @@
+//Variáveis da bolinha
+let xBolinha = 300;
+let yBolinha = 200;
+let diametro = 17;
+let raio = diametro / 2
+
+
+//Variáveis da raquete
+let xminharaquete = 5;
+let yminharaquete = 150;
+let largraquete = 10;
+let altraquete = 90;
+
+//Variáveis da raquete adversário
+let xraqueteadv = 585;
+let yraqueteadv = 150;
+let largraqueteadv = 10;
+let altraqueteadv = 90;
+let velocidadeYadv;
+
+let meuspontos = 0
+let pontosadv = 0
+
+
+//Variáveis velocidade da bolinha
+let velocidadexBolinha = 6;
+let velocidadeyBolinha = 6;
+
+//LarguraxAltura do background
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(0) //desenha o background
+  mostrabolinha(); //Desenha a bolinha
+  velocidadebolinha(); //Movimenta a bolinha
+  colisaoborda(); //Verifica a colisão da bolinha
+  mostraraquete (xminharaquete,yminharaquete);  //Desenha a minharaquete
+  mostraraquete(xraqueteadv,yraqueteadv); //Desenha raquete adversário
+  movimentaraquete (); //Movimmenta a raquete
+  colisaoraqueteborda ();
+  movimentaraqueteadv();
+  verificaColisaoRaquete (xminharaquete,yminharaquete)
+  verificaColisaoRaqueteOponente (xraqueteadv,yraqueteadv)
+  pontuaçao();
+  marcaponto();
+  
+}
+
+
+//Refatoração
+function mostrabolinha(){
+  circle(xBolinha,yBolinha,diametro);}
+
+function velocidadebolinha(){
+  xBolinha += velocidadexBolinha;
+  yBolinha += velocidadeyBolinha;
+}
+
+function colisaoborda(){
+   if (xBolinha + raio > width || xBolinha - raio < 0){
+    velocidadexBolinha *= -1};
+  
+  if (yBolinha + raio > height || yBolinha - raio < 0){
+    velocidadeyBolinha *= -1};
+
+}
+
+function mostraraquete (x,y){
+  rect(x,y,largraquete,altraquete);
+}
+
+function movimentaraquete (){
+  if (keyIsDown(UP_ARROW)){
+    yminharaquete -= 10;
+  }
+  if (keyIsDown(DOWN_ARROW)){
+    yminharaquete += 10;
+  }
+  
+yminharaquete = constrain(yminharaquete, 10, 310);
+
+}
+
+function colisaoraqueteborda() {
+    if (xBolinha - raio < xminharaquete + largraquete
+        && yBolinha - raio < yminharaquete + altraquete
+        && yBolinha + raio > yminharaquete) {
+       velocidadexBolinha *= -1;
+    }
+}
+
+function movimentaraqueteadv(){
+  velocidadeYadv = yBolinha - yraqueteadv - altraqueteadv / 2 -30;
+  yraqueteadv += velocidadeYadv
+  
+  yadvraquete = constrain(yraqueteadv, 10, 310);
+
+}
+
+function verificaColisaoRaquete(){
+  if (xBolinha - raio < xminharaquete + largraquete && yBolinha - raio < yminharaquete + altraquete && yBolinha + raio < yminharaquete + altraquete){ velocidadexBolinha *= -1; } }
+
+function verificaColisaoRaqueteOponente(){
+  if (xBolinha + raio > xraqueteadv && yBolinha + raio < yraqueteadv + altraqueteadv && yBolinha + raio > yraqueteadv - altraqueteadv){ velocidadexBolinha *= -1; } }
+
+function pontuaçao (){
+  fill(255)
+  text (meuspontos, 278, 26)
+  text (pontosadv, 321, 26)
+}
+
+function marcaponto(){
+  
+}
